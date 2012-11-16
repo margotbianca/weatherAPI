@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>WeatherUndergroundAPI</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+	<meta name="author" content="The Chopping Block, Inc." />
+	<meta name="geo.country" content="US" />
+	<meta name="dc.language" content="en" />
+	<meta name="description" content="" />
+	<meta name="keywords" content="" />
+	
+	<link rel="stylesheet" href="styles.css" type="text/css" media="screen" charset="utf-8" />
+	
+	<style type="text/css" media="screen">		
+		body{
+			border: 1px solid black;
+			padding: 20px;
+			padding-top: 20px;
+			text-align: center;
+			font-family:Courier,Serif;
+			font: 1.5em;
+			font-size:15px;
+			background-color:#FFFFFF;
+			width:600px;
+			margin: 0 auto;
+		}
+		img { 
+   			vertical-align: middle;
+		} 
+		h1{
+			font-family:Courier,Serif;
+			font-size:25px;
+
+		}
+	</style>
+</head>
+<body>
+
+<div class="header"><h1></h1></div>
+
+	<div class="wrap" >
+<P class="a"><img src="sunrise-icon.jpeg" width="64" height="*"></p>
+<p class="b"><img src="sunset-icon.jpeg" width="64" height="*"></p>
+	</div>
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+	
+	
+	<script type="text/javascript" charset="utf-8">
+		
+			$.ajax({
+ 				url : "http://api.wunderground.com/api/83d379da6155f5e1/geolookup/q/autoip.json",
+ 				type: "GET",
+				dataType: "jsonp",
+			}).done(function(data){
+				console.log(data)
+				var location = data["location"]["city"]
+				$("h1").append(location)
+			});
+
+
+		
+			$.ajax({
+ 				url : "http://api.wunderground.com/api/83d379da6155f5e1/astronomy/q/autoip.json",
+ 				type: "GET",
+				dataType: "jsonp",
+			}).done(function(data){
+					console.log(data)
+					var sunrise_hour = data["moon_phase"]['sunrise']['hour'];
+					var sunrise_min = data["moon_phase"]['sunrise']['minute'];
+	  				var sunset_hour = data['moon_phase']['sunset']['hour'];
+ 	 				var sunset_min = data["moon_phase"]['sunset']['minute'];
+					var sunrise = "sunrise: " + sunrise_hour + ":" + sunrise_min
+					var sunset = "sunset: " + sunset_hour + ":" + sunset_min
+					$('.a').append(sunrise)	
+					$('.b').append(sunset)	
+
+			});
+	</script>
+</body>
+</html>
+
+
+
